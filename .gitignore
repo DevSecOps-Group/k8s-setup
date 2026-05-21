@@ -1,0 +1,15 @@
+# Logs y archivos temporales
+*.log
+*.tmp
+*.bak
+.idea/
+.vscode/
+.DS_Store
+
+# Estado y caché del instalador
+state/
+*.ok
+
+# Archivos de entorno y configuración local (plantillas vacías deben recrearse en el host)
+cluster.env
+inventory.csv
