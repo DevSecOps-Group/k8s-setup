@@ -1,6 +1,6 @@
 # 03 — Configuración de HAProxy: El Guardián del API Server
 
-¡Seguimos avanzando! Ahora vamos a entrar a un concepto que separa a los clústeres de "juguete" de los clústeres de grado empresarial.
+¡Seguimos avanzando! Ahora vamos a entrar a un concepto que separa a los clústeres de uso no productivo de los clústeres de grado empresarial.
 
 Cuando un clúster de Kubernetes solo tiene un nodo Control Plane (Master), ese nodo es un "Single Point of Failure" (SPOF). Si se cae, te quedas sin acceso al clúster. En el mundo real, instalamos múltiples nodos Master. Pero, ¿a qué IP debe apuntar el Worker? ¿A la del Master 1 o Master 2? 
 

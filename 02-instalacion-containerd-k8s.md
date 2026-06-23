@@ -42,7 +42,7 @@ Atrás quedaron los días donde Docker era el motor por defecto. Hoy en día, Ku
 
 ### 1.1 Configurando el Kernel para el Runtime
 
-Los contenedores son, en el fondo, magia de Linux (cgroups y namespaces). Para que el tráfico de red pueda viajar entre los Pods y hacia el mundo exterior, el UEK 7 necesita cargar unos módulos específicos de enrutamiento.
+Los contenedores utilizan mecanismos del kernel de Linux (cgroups y namespaces) para el aislamiento de procesos. Para que el tráfico de red pueda viajar entre los Pods y hacia el mundo exterior, el UEK 7 necesita cargar unos módulos específicos de enrutamiento.
 
 ```bash
 # Definimos los módulos
@@ -101,22 +101,22 @@ systemctl enable --now containerd
 
 ## 3. Instalación de las "Tres K" (kubeadm, kubelet, kubectl)
 
-Es hora de instalar la sagrada trinidad de la administración de Kubernetes:
+Es hora de instalar el conjunto de herramientas esenciales de Kubernetes:
 - **kubelet**: El "capataz" del nodo. Recibe órdenes del Master y se asegura de que containerd levante los pods asignados.
-- **kubeadm**: Nuestra herramienta de bootstrap. Hará la magia pesada de generar certificados TLS, inicializar etcd y levantar el API Server.
+- **kubeadm**: Nuestra herramienta de bootstrap. Se encargará del trabajo pesado: generar certificados TLS, inicializar etcd y levantar el API Server.
 - **kubectl**: El cliente CLI. La herramienta con la que hablarás con el clúster todos los días.
 
 ### 3.1 Añadir el Repositorio de Kubernetes
-*Nota: Usaremos la versión v1.30, que es madura y estable.*
+*Nota: Usaremos la versión v1.36, la más reciente y estable al momento de este material.*
 
 ```bash
 cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
-baseurl=https://pkgs.k8s.io/core:/stable:/v1.30/rpm/
+baseurl=https://pkgs.k8s.io/core:/stable:/v1.36/rpm/
 enabled=1
 gpgcheck=1
-gpgkey=https://pkgs.k8s.io/core:/stable:/v1.30/rpm/repodata/repomd.xml.key
+gpgkey=https://pkgs.k8s.io/core:/stable:/v1.36/rpm/repodata/repomd.xml.key
 EOF
 ```
 

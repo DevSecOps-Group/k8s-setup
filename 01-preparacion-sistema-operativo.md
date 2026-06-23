@@ -58,7 +58,7 @@ EOF
 
 ---
 
-## 3. Desactivar Swap: ¿Por qué lo odia Kubernetes?
+## 3. Desactivar Swap: Incompatibilidad con Kubernetes
 
 Por defecto, Kubernetes no tolera el Swap (memoria de intercambio). ¿La razón? El planificador (`kube-scheduler`) necesita saber exactamente cuánta memoria física real tiene cada nodo para poder asignar los contenedores de forma predecible. Si se usa Swap, el rendimiento cae en picada y los OOMKills (Out Of Memory Kills) se vuelven un misterio.
 

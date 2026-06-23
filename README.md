@@ -97,7 +97,7 @@ Para replicar con exactitud este entorno y evitar fallos por falta de recursos, 
 
 * **Sistema Operativo Base:** Oracle Linux 9.7
 * **Kernel:** Unbreakable Enterprise Kernel Release 7 (UEK 7)
-* **Versión de Kubernetes:** v1.30.0
+* **Versión de Kubernetes:** v1.36.0
 * **Container Runtime:** Containerd (CRI-O compatible)
 
 ### Dimensionamiento Recomendado

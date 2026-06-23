@@ -44,8 +44,8 @@ Docker Hub tiene límites de tasa de descarga (Rate Limits) muy agresivos para u
 Como profesionales, siempre precargamos las imágenes necesarias.
 
 ```bash
-# Cambia la versión por la que estés usando (ej. v1.30.0)
-kubeadm config images pull --kubernetes-version v1.30.0
+# Cambia la versión por la que estés usando (ej. v1.36.0)
+kubeadm config images pull --kubernetes-version v1.36.0
 ```
 *Si ves que se descarga todo correctamente, es un gran alivio y validamos que el nodo tiene salida a internet.*
 
@@ -77,7 +77,7 @@ clusterName: kubernetes
 # IMPORTANTE: ¡Aquí entra en juego el balanceador que configuramos antes!
 # Esta es la IP del nodo HAProxy
 controlPlaneEndpoint: "192.168.1.10:6443"
-kubernetesVersion: "v1.30.0"
+kubernetesVersion: "v1.36.0"
 networking:
   # Rango de IPs reservado para los Pods (Debe coincidir con la config del CNI Calico)
   podSubnet: "15.244.0.0/16"
@@ -127,7 +127,7 @@ En Kubernetes, la red de los Pods no viene "out of the box". Debes instalar un p
 # y aplica el manifiesto de Calico específicamente validado para esta versión:
 kubectl apply -f yamls/calico.yaml
 
-# Vigilen la magia en vivo (Presionen Ctrl+C para salir)
+# Monitoreen el despliegue en tiempo real (Presionen Ctrl+C para salir)
 kubectl get pods -n kube-system -w
 ```
 
@@ -136,7 +136,7 @@ Una vez que todos los pods de Calico (`calico-node`, `calico-kube-controllers`) 
 ```bash
 kubectl get nodes
 ```
-¡Boom! El estado `Ready` es su confirmación de que todo salió perfecto. Tomen un descanso y prepárense para unir a los Workers.
+El estado `Ready` confirma que la inicialización fue exitosa. El clúster está operativo y listo para recibir los nodos Worker.
 
 ---
 

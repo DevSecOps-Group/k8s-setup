@@ -84,7 +84,7 @@ Deberían ver pods corriendo. ¡Excelente! Pero no esperarán que sus clientes e
 
 ## 3. Cerrando el círculo con HAProxy
 
-Aquí entra la magia de nuestro balanceador. Le diremos a HAProxy que reciba el tráfico web estándar (80 y 443) y lo envíe silenciosamente a los puertos `NodePort` de nuestros Workers.
+Aquí entra en acción el balanceador. Le indicaremos a HAProxy que reciba el tráfico web estándar (80 y 443) y lo envíe a los puertos `NodePort` de nuestros Workers.
 
 **Ve a tu nodo HA-PROXY** y abre la configuración:
 

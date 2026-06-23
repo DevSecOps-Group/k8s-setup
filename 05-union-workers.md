@@ -64,14 +64,14 @@ No hay nada más satisfactorio que ver a tus nodos reportándose listos para la 
 kubectl get nodes -o wide
 ```
 
-Esperen unos segundos a que Calico instale sus rutas en los nuevos nodos, y la magia ocurrirá:
+Esperen unos segundos a que Calico instale sus rutas en los nuevos nodos. Una vez completada la propagación, el clúster mostrará todos los nodos en estado `Ready`:
 
 ```text
 NAME         STATUS   ROLES           AGE     VERSION    INTERNAL-IP    
-master-01    Ready    control-plane   10m     v1.30.0    192.168.1.20   
-worker-01    Ready    <none>          2m      v1.30.0    192.168.1.31   
-worker-02    Ready    <none>          1m      v1.30.0    192.168.1.32   
-worker-03    Ready    <none>          45s     v1.30.0    192.168.1.33   
+master-01    Ready    control-plane   10m     v1.36.0    192.168.1.20   
+worker-01    Ready    <none>          2m      v1.36.0    192.168.1.31   
+worker-02    Ready    <none>          1m      v1.36.0    192.168.1.32   
+worker-03    Ready    <none>          45s     v1.36.0    192.168.1.33   
 ```
 
 **¡Felicidades!** Tienen un clúster distribuido en Oracle Linux funcionando impecablemente. Solo nos queda una pieza para que los clientes puedan consumir nuestras aplicaciones web, y de eso trata la siguiente y última lección.
