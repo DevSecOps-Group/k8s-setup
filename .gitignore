@@ -1,15 +1,30 @@
-# Logs y archivos temporales
+# Archivos e IDEs
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Logs y Archivos Temporales
 *.log
 *.tmp
 *.bak
-.idea/
-.vscode/
-.DS_Store
-
-# Estado y caché del instalador
 state/
 *.ok
 
-# Archivos de entorno y configuración local (plantillas vacías deben recrearse en el host)
+# Archivos de Entorno y Configuración Local
+# ¡IMPORTANTE! Las configuraciones locales (IPs) nunca deben subirse al repo.
 cluster.env
 inventory.csv
+.env
+*.local
+
+# Credenciales y Certificados (Seguridad)
+*.pem
+*.crt
+*.key
+*.p12
+*.pfx
+kubeconfig
+.kube/

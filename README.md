@@ -1,132 +1,127 @@
-# ☸️ On-Premise Kubernetes HA Installer (Pre-Production Edition)
+# 🚀 On-Premise Kubernetes HA Installer (Educative Edition)
 
-¡Bienvenido a este repositorio! Este proyecto ha sido diseñado con mucho esfuerzo y dedicación como un **regalo para la comunidad de TI y DevSecOps**, ofreciendo una base de conocimiento sólida, estructurada y altamente eficiente para la instalación y operación de clústeres de **Kubernetes de alta disponibilidad en entornos On-Premise** desde cero.
+¡Bienvenido a este repositorio! Si estás aquí, es porque has decidido dar el siguiente paso en tu carrera profesional y aprender cómo se construye realmente la infraestructura Cloud Native en el mundo corporativo.
 
-Esta caja de herramientas elimina la complejidad operativa de preparar sistemas operativos empresariales y proporciona un camino claro, seguro e idéntico para establecer su infraestructura de contenedores.
-
----
-
-## 👨‍💻 Autoría y Créditos Profesionales
-
-Todo el diseño arquitectónico, los scripts de cumplimiento automatizados, la guía técnica y los manuales operativos han sido concebidos y desarrollados por:
-
-* **Autor**: **Ing. Jesús A. Chávez Becerra**
-* **Cargo**: *DevSecOps, Cloud and Infrastructure Architect*
-* **Empresa / Firma**: **DevSecOps Group S.A.C.**
-* **Propósito**: Estandarizar despliegues de alto rendimiento y robustez en entornos reales On-Premise (especialmente sobre Oracle Linux y RHEL 8/9).
+Este proyecto ha sido diseñado con un **enfoque arquitectónico y formativo avanzado**. A diferencia de las guías tradicionales que te entregan un script opaco que hace todo mágicamente, aquí encontrarás el **paso a paso detallado, manual y explicado** de cada configuración requerida para levantar un clúster de **Kubernetes de alta disponibilidad en entornos On-Premise** desde cero.
 
 ---
 
-## ⚠️ Aclaración y Recomendación de Entorno
+## 🗺️ Tu Mapa de Aprendizaje: ¿Por dónde empiezo?
 
-> [!IMPORTANT]
-> **Recomendación de Entorno: PRE-PRODUCTIVO (Staging / Testing)**
+Si en algún momento te sientes perdido o no sabes qué archivo ejecutar a continuación, **siempre regresa a este README**. 
+La instalación ha sido dividida en 6 laboratorios lógicos. Para asegurar el éxito de tu clúster, **debes seguir estrictamente este orden**:
+
+> [!TIP]
+> **El Orden de Ejecución Oficial**
 > 
-> Toda la arquitectura, los parámetros de optimización del Kernel, las configuraciones del balanceador de carga y las topologías de nodos aquí expuestas están **diseñadas y recomendadas específicamente para ambientes Pre-Productivos, Staging, Desarrollo y Pruebas**. 
+> 1. 🟢 **[01-preparacion-sistema-operativo.md](./01-preparacion-sistema-operativo.md)**
+>    * **¿Qué haremos?** Apagar Swap, SELinux y preparar la red base.
+>    * **¿Dónde?** En TODOS tus servidores.
 > 
-> Esta topología ofrece un balance extraordinario entre simplicidad de despliegue, eficiencia de recursos físicos y robustez para validación de aplicaciones, sin incurrir en la sobrecarga y costo que demanda un entorno de producción altamente tolerante a fallos multisitio.
+> 2. 🟢 **[02-instalacion-containerd-k8s.md](./02-instalacion-containerd-k8s.md)**
+>    * **¿Qué haremos?** Instalar el motor `containerd` y las herramientas `kubeadm`, `kubelet` y `kubectl`.
+>    * **¿Dónde?** En tus Managers y Workers.
+> 
+> 3. 🟡 **[03-configuracion-haproxy.md](./03-configuracion-haproxy.md)**
+>    * **¿Qué haremos?** Configurar el punto de entrada (Balanceador) para la Alta Disponibilidad.
+>    * **¿Dónde?** Únicamente en tu servidor HAProxy.
+> 
+> 4. 🔴 **[04-inicializacion-manager.md](./04-inicializacion-manager.md)**
+>    * **¿Qué haremos?** Encender el cerebro del clúster con `kubeadm init` e instalar la red Calico.
+>    * **¿Dónde?** Únicamente en tu Manager.
+> 
+> 5. 🔵 **[05-union-workers.md](./05-union-workers.md)**
+>    * **¿Qué haremos?** Agregar fuerza de cómputo uniendo los nodos con `kubeadm join`.
+>    * **¿Dónde?** En tus Workers.
+> 
+> 6. 🟣 **[06-despliegue-ingress.md](./06-despliegue-ingress.md)**
+>    * **¿Qué haremos?** Instalar NGINX Ingress para que el mundo pueda ver tus aplicaciones.
+>    * **¿Dónde?** En el Manager (para lanzar los comandos) y el HAProxy (para enrutar el puerto 80/443).
 
 ---
 
-## 🏗️ Arquitectura del Clúster
+## 🏛️ La Arquitectura que vas a Construir
 
-La topología de referencia recomendada para este entorno pre-productivo consta de **5 servidores independientes**:
+Para que no pierdas de vista el objetivo, este es el diseño lógico de lo que vas a ensamblar pieza por pieza:
 
 ```mermaid
-graph TD
-    Client([💻 Cliente / kubectl]) -->|Puerto 6443| LB[⚖️ HAProxy Load Balancer]
+flowchart TB
+    %% Estilos Pastel
+    classDef admin fill:#B3C0D1,stroke:#8B98A8,stroke-width:2px,color:#333,rx:10,ry:10;
+    classDef users fill:#F8C8DC,stroke:#D1A3B4,stroke-width:2px,color:#333,rx:10,ry:10;
+    classDef lb fill:#FFD8B1,stroke:#D6B492,stroke-width:2px,color:#333,rx:10,ry:10;
+    classDef cp fill:#AEC6CF,stroke:#8FA9B3,stroke-width:2px,color:#333,rx:10,ry:10;
+    classDef dp fill:#B7E4C7,stroke:#94C3A6,stroke-width:2px,color:#333,rx:10,ry:10;
+    classDef network fill:#FDFD96,stroke:#D9D97B,stroke-width:2px,color:#333,stroke-dasharray: 5 5;
+
+    %% Nodos
+    A([👨‍💻 Administradores / DevOps]):::admin
+    U([👥 Usuarios Finales]):::users
     
+    subgraph Zona de Balanceo
+        LB[⚖️ HAProxy Load Balancer<br>192.168.1.10]:::lb
+    end
+
     subgraph Control Plane
-        LB -->|kube-apiserver| CP1[👑 Control Plane Node<br/>master-01]
+        CP1[🧠 Master-01<br>kube-apiserver<br>etcd]:::cp
     end
-    
+
     subgraph Data Plane
-        CP1 -->|CNI Calico| DP1[⚙️ Data Plane Node<br/>worker-01]
-        CP1 -->|CNI Calico| DP2[⚙️ Data Plane Node<br/>worker-02]
-        CP1 -->|CNI Calico| DP3[⚙️ Data Plane Node<br/>worker-03]
+        DP1[🏗️ Worker-01<br>Ingress NGINX]:::dp
+        DP2[🏗️ Worker-02<br>App Workloads]:::dp
+        DP3[🏗️ Worker-03<br>App Workloads]:::dp
     end
     
-    classDef lb fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef cp fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef dp fill:#bfb,stroke:#333,stroke-width:2px;
-    class LB lb;
-    class CP1 cp;
-    class DP1,DP2,DP3 dp;
-```
+    CNI((🕸️ Calico CNI<br>Overlay Network)):::network
 
-### Detalle de Servidores:
-1. **1 HAProxy (Balanceador de Carga)**: Se encarga de recibir el tráfico de administración del API Server de Kubernetes en el puerto `6443` y distribuirlo eficientemente al nodo Control Plane. También puede configurarse para balancear tráfico web (puertos `80` y `443`) hacia los NodesPorts de Ingress en el Data Plane.
-2. **1 Control Plane (Master)**: Aloja los componentes esenciales de administración del clúster (`etcd`, `kube-apiserver`, `kube-scheduler`, `kube-controller-manager`).
-3. **3 Data Plane (Workers)**: Nodos dedicados exclusivamente a la ejecución de sus cargas de trabajo (Pods), garantizando la correcta distribución y alta disponibilidad de las aplicaciones mediante el CNI.
-
----
-
-## 🗂️ Estructura del Repositorio
-
-El repositorio se ha organizado con una secuencia numérica lógica, limpia y auto-explicativa para guiar al ingeniero paso a paso:
-
-```text
-k8s_installers/
-├── README.md                     # Bienvenida, arquitectura y créditos del repositorio
-├── 01-setup-k8s-pre-reqs.sh      # Script de cumplimiento de prerrequisitos del SO y red
-├── 02-k8s-installation-guide.md  # Guía manual paso a paso del bootstrap del clúster hasta Helm/Ingress
-├── 03-teardown-servers.sh        # Script automatizado de limpieza profunda y reset del servidor
-├── 04-ops-troubleshooting.md     # Manual detallado de operaciones, monitoreo y troubleshooting de K8s
-└── yamls/
-    ├── calico.yaml               # Manifiesto de red Calico CNI (v3.27+)
-    └── local-path-storage.yaml   # Provisionador de almacenamiento local de referencia
+    %% Conexiones
+    A -- "Admin (TCP 6443)" --> LB
+    U -- "Web (HTTP 80 / 443)" --> LB
+    
+    LB -- "API Traffic" --> CP1
+    LB -- "Ingress Traffic" --> DP1
+    LB -- "Ingress Traffic" --> DP2
+    LB -- "Ingress Traffic" --> DP3
+    
+    CP1 -. "Pod Sync" .- CNI
+    DP1 -. "Pod Sync" .- CNI
+    DP2 -. "Pod Sync" .- CNI
+    DP3 -. "Pod Sync" .- CNI
 ```
 
 ---
 
-## 🚀 Secuencia de Despliegue Técnica
+## 🖥️ Requisitos del Laboratorio (Dimensionamiento)
 
-Para lograr una instalación 100% exitosa, siga estrictamente el siguiente flujo:
+Para replicar con exactitud este entorno y evitar fallos por falta de recursos, nos basaremos en el siguiente stack:
 
-### Paso 1: Preparación Automatizada (`01-setup-k8s-pre-reqs.sh`)
-Ejecute este robusto script en **cada uno de los 5 servidores**. El script analizará automáticamente el sistema operativo (Oracle Linux o RHEL 8/9), comprobará compatibilidad de CPU, RAM, red, repositorios, desactivará Firewalld/SELinux de forma permanente, configurará parámetros avanzados del kernel (`sysctl`), deshabilitará swap y preparará los binarios e inventario comunes para el clúster.
-```bash
-# Otorgar permisos y ejecutar
-chmod +x ./01-setup-k8s-pre-reqs.sh
-./01-setup-k8s-pre-reqs.sh
-```
+* **Sistema Operativo Base:** Oracle Linux 9.7
+* **Kernel:** Unbreakable Enterprise Kernel Release 7 (UEK 7)
+* **Versión de Kubernetes:** v1.30.0
+* **Container Runtime:** Containerd (CRI-O compatible)
 
-### Paso 2: Instalación del Clúster (`02-k8s-installation-guide.md`)
-Siga detalladamente la guía de instalación manual. Esta le guiará a través de:
-1. Configuración del HAProxy como balanceador seguro.
-2. Bootstrap del clúster Kubernetes con `kubeadm init` en el nodo Master.
-3. Incorporación de los 3 nodos Data Plane al clúster con `kubeadm join`.
-4. Despliegue de la red virtual del clúster con **Calico CNI**.
-5. Instalación del gestor de paquetes **Helm CLI**.
-6. Despliegue del **NGINX Ingress Controller** oficial a través de Helm.
+### Dimensionamiento Recomendado
 
-### Paso 3: Operaciones y Mantenimiento (`04-ops-troubleshooting.md`)
-Una vez que el clúster esté validado y en estado `Ready`, utilice esta guía para realizar tareas operativas del día a día, tales como drain de nodos, validaciones de conectividad, depuración del CNI, instalación de la interfaz K9s, upgrades de versión o validación de failover.
-
-### Paso 4: Migración de Red o Reset del Servidor (`03-teardown-servers.sh`)
-Si requiere cambiar el clúster de segmento de red, actualizar IPs físicas o simplemente desea rehacer la instalación desde cero de forma limpia, este script automatizado detecta el rol del nodo y limpia a fondo interfaces de red virtuales, IPTables, IPVS, sockets de containerd, directorios de Kubernetes y libera de forma segura todos los recursos del disco.
-```bash
-# Limpiar el servidor por completo manteniendo paquetes/imágenes listos para re-instalar
-chmod +x ./03-teardown-servers.sh
-./03-teardown-servers.sh
-```
+| Rol | CPU (Mínimo) | RAM (Mínimo) | Almacenamiento |
+|---|---|---|---|
+| **HAProxy (Balanceador)** | 2 vCPU | 2 GB | 40 GB |
+| **Manager (Control Plane)** | 2 vCPU | 4 GB | 60 GB |
+| **Worker (Data Plane)** | 4 vCPU | 8 GB | 80 GB+ |
 
 ---
 
-## 🛠️ Contrato de Diseño y Modelo de Datos
+## 🚑 ¿Algo falló o te perdiste?
 
-* **Directorio Base**: Todo el proceso se instala y lee desde `/root/k8s-installer`.
-* **Fuente Única de Verdad (Env)**: `/root/k8s-installer/cluster.env`.
-* **Inventario Centralizado**: `/root/k8s-installer/inventory.csv`.
-* **Caché de Validaciones**: `/root/k8s-installer/state/*.ok` (evita repetir chequeos costosos si el script se vuelve a ejecutar).
+En la vida real, los comandos fallan por errores de tipeo, desconexiones o problemas de red. 
+
+Si te quedas atascado o algún paso falla, **NO intentes solucionarlo copiando comandos al azar de internet**, ya que corromperás el estado del servidor. En su lugar, dirígete a tu salvavidas:
+
+👉 **[07-ops-troubleshooting.md](./07-ops-troubleshooting.md)**
+
+Allí encontrarás la guía de operaciones, comandos de diagnóstico y el **protocolo de reseteo manual**, que te enseñará a limpiar el servidor problemático para que puedas intentarlo de nuevo desde cero.
 
 ---
 
-## 🤝 Contribuciones y Soporte
-
-Este proyecto es de código abierto y está pensado para ser extendido por la comunidad. Si tiene sugerencias, corrección de errores o mejoras operativas, no dude en proponer cambios. 
-
-Para soporte corporativo o consultorías avanzadas en infraestructura en la nube y arquitecturas híbridas Kubernetes de alta disponibilidad, puede contactar a:
-* **Firma**: **DevSecOps Group S.A.C.**
-* **Contacto**: **Ing. Jesús A. Chávez Becerra**
-* **Email / LinkedIn**: *Disponible a través de los canales oficiales de DevSecOps Group S.A.C.*
+**Material Patrocinado por:** DevSecOps Group SAC (Consultoría & Entrenamiento Corporativo)  
+**Instructor Certificado:** Ing. Jesús A. Chávez Becerra  
+**Contacto:** jesus@devsecops.pe
