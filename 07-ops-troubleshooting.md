@@ -1,10 +1,12 @@
 # 07 — Operación y Troubleshooting: Manteniendo el Clúster Vivo
 
+> **Arquitectura del Laboratorio:** 1 HA-Proxy (Balanceador) · 1 Nodo Manager (Control-Plane) · 3 Nodos Workers (Data-Plane)
+
 Como arquitectos de plataformas Cloud Native, instalar Kubernetes es solo el 20% del trabajo. El verdadero reto es mantenerlo operando, diagnosticar problemas y saber qué hacer cuando "todo se rompe".
 
 En esta guía final, cubriremos los escenarios más comunes de operación.
 
-> **Aplica para:** Nodos MANAGER y WORKER, dependiendo del incidente.
+> **Aplica para:** Nodo Manager (Control-Plane) y Nodos Workers (Data-Plane), dependiendo del incidente.
 > **Privilegios:** Root (`sudo su -`).
 
 ---

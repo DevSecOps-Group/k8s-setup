@@ -1,8 +1,10 @@
 # 04 — Inicialización del Clúster (Control Plane / Manager)
 
-¡Llegó el momento de la verdad! En esta sesión vamos a encender el cerebro de nuestro clúster. Como administrador de la plataforma, el nodo Manager es tu templo. Aquí vivirá el `kube-apiserver`, `etcd`, el `controller-manager` y el `scheduler`. 
+> **Arquitectura del Laboratorio:** 1 HA-Proxy (Balanceador) · 1 Nodo Manager (Control-Plane) · 3 Nodos Workers (Data-Plane)
 
-> **Aplica para:** Nodo MANAGER (Ej. master-01).
+¡Llegó el momento de la verdad! En esta sesión vamos a encender el cerebro de nuestro clúster. Como administrador de la plataforma, el Nodo Manager es tu templo. Aquí vivirá el `kube-apiserver`, `etcd`, el `controller-manager` y el `scheduler`. 
+
+> **Aplica para:** Nodo Manager (Control-Plane) (Ej. master-01).
 > **Privilegios:** Root (`sudo su -`).
 
 ---
@@ -137,6 +139,10 @@ Una vez que todos los pods de Calico (`calico-node`, `calico-kube-controllers`) 
 kubectl get nodes
 ```
 El estado `Ready` confirma que la inicialización fue exitosa. El clúster está operativo y listo para recibir los nodos Worker.
+
+---
+
+> **Siguiente paso:** [Laboratorio 05: Unión de Workers al Clúster](./05-union-workers.md) — Agregaremos los 3 Nodos Workers (Data-Plane).
 
 ---
 

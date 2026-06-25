@@ -2,6 +2,20 @@
 
 ¡Bienvenido a este repositorio! Si estás aquí, es porque has decidido dar el siguiente paso en tu carrera profesional y aprender cómo se construye realmente la infraestructura Cloud Native en el mundo corporativo.
 
+## Acerca de esta Instalación
+
+Este laboratorio documenta una **instalación estándar** de Kubernetes On-Premise (**ambiente de laboratorio**).
+
+La arquitectura está compuesta por:
+
+| Componente | Cantidad | Rol |
+|---|---|---|
+| **HA-Proxy** | 1 | Balanceador de Carga (punto de entrada único) |
+| **Nodo Manager** | 1 | Control-Plane (kube-apiserver, etcd, scheduler) |
+| **Nodos Workers** | 3 | Data-Plane (workloads, Ingress, aplicaciones) |
+
+> Esta configuración es ideal para laboratorios, validaciones y ambientes de desarrollo/prueba. Para producción, se recomienda revisar la sección de alta disponibilidad con Keepalived.
+
 Este proyecto ha sido diseñado con un **enfoque arquitectónico y formativo avanzado**. A diferencia de las guías tradicionales que te entregan un script opaco que hace todo mágicamente, aquí encontrarás el **paso a paso detallado, manual y explicado** de cada configuración requerida para levantar un clúster de **Kubernetes de alta disponibilidad en entornos On-Premise** desde cero.
 
 ---
@@ -104,9 +118,9 @@ Para replicar con exactitud este entorno y evitar fallos por falta de recursos, 
 
 | Rol | CPU (Mínimo) | RAM (Mínimo) | Almacenamiento |
 |---|---|---|---|
-| **HAProxy (Balanceador)** | 2 vCPU | 2 GB | 40 GB |
-| **Manager (Control Plane)** | 2 vCPU | 4 GB | 60 GB |
-| **Worker (Data Plane)** | 4 vCPU | 8 GB | 80 GB+ |
+| **HA-Proxy (Balanceador de Carga)** | 2 vCPU | 2 GB | 40 GB |
+| **Nodo Manager (Control-Plane)** | 2 vCPU | 4 GB | 60 GB |
+| **Nodo Worker (Data-Plane)** | 4 vCPU | 8 GB | 80 GB+ |
 
 ---
 
@@ -119,6 +133,10 @@ Si te quedas atascado o algún paso falla, **NO intentes solucionarlo copiando c
 👉 **[07-ops-troubleshooting.md](./07-ops-troubleshooting.md)**
 
 Allí encontrarás la guía de operaciones, comandos de diagnóstico y el **protocolo de reseteo manual**, que te enseñará a limpiar el servidor problemático para que puedas intentarlo de nuevo desde cero.
+
+---
+
+> **¿Listo para empezar?** Comienza con el [Laboratorio 01: Preparación del Sistema Operativo](./01-preparacion-sistema-operativo.md) y sigue el orden de ejecución para completar tu clúster.
 
 ---
 

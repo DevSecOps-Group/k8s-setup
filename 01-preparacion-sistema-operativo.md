@@ -1,5 +1,7 @@
 # 01 — Preparación del Sistema Operativo: Cimientos Sólidos
 
+> **Arquitectura del Laboratorio:** 1 HA-Proxy (Balanceador) · 1 Nodo Manager (Control-Plane) · 3 Nodos Workers (Data-Plane)
+
 Como arquitectos de infraestructura, les aseguro que el 80% de los problemas de inestabilidad en un clúster de producción provienen de un sistema operativo mal preparado. Este módulo construye la base sobre la cual correrá todo el stack de Kubernetes.
 
 Para este laboratorio, utilizaremos **Oracle Linux 9.7** equipado con el último **Kernel UEK 7** (Unbreakable Enterprise Kernel Release 7). Este entorno nos proporciona la robustez empresarial necesaria para cargas críticas.
@@ -119,6 +121,10 @@ dnf install -y curl wget vim jq tree git bash-completion net-tools tar iproute-t
 > ```bash
 > reboot
 > ```
+
+---
+
+> **Siguiente paso:** [Laboratorio 02: Instalación del Runtime de Contenedores y Binarios](./02-instalacion-containerd-k8s.md) — Instalaremos containerd y las herramientas de Kubernetes.
 
 ---
 

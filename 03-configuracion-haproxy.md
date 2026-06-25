@@ -1,12 +1,14 @@
 # 03 — Configuración de HAProxy: El Guardián del API Server
 
+> **Arquitectura del Laboratorio:** 1 HA-Proxy (Balanceador) · 1 Nodo Manager (Control-Plane) · 3 Nodos Workers (Data-Plane)
+
 ¡Seguimos avanzando! Ahora vamos a entrar a un concepto que separa a los clústeres de uso no productivo de los clústeres de grado empresarial.
 
 Cuando un clúster de Kubernetes solo tiene un nodo Control Plane (Master), ese nodo es un "Single Point of Failure" (SPOF). Si se cae, te quedas sin acceso al clúster. En el mundo real, instalamos múltiples nodos Master. Pero, ¿a qué IP debe apuntar el Worker? ¿A la del Master 1 o Master 2? 
 
 La respuesta es: a ninguno. Apuntan a un Balanceador de Carga (HAProxy) que distribuye las peticiones. En esta lección configuraremos ese balanceador.
 
-> **Aplica para:** SOLO al Nodo HA-Proxy (Balanceador).
+> **Aplica para:** SOLO al Nodo HA-Proxy (Balanceador de Carga).
 > **Privilegios:** Seguimos como `root`.
 
 ---
@@ -123,6 +125,10 @@ Deben visualizar que el proceso `haproxy` está bindeado a `*:6443` o `0.0.0.0:6
 > [!TIP]
 > **Reflexión del Instructor**
 > En el siguiente paso, cuando hagamos el famoso `kubeadm init` en el Master, le diremos: *"Oye, el Endpoint principal del clúster NO es tu IP local, es la IP de este servidor HAProxy"*. Así es como cimentamos la arquitectura de Alta Disponibilidad (HA).
+
+---
+
+> **Siguiente paso:** [Laboratorio 04: Inicialización del Clúster (Control Plane)](./04-inicializacion-manager.md) — Encenderemos el cerebro del clúster.
 
 ---
 

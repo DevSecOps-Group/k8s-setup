@@ -1,8 +1,10 @@
 # 02 — Instalación del Runtime de Contenedores y Binarios
 
+> **Arquitectura del Laboratorio:** 1 HA-Proxy (Balanceador) · 1 Nodo Manager (Control-Plane) · 3 Nodos Workers (Data-Plane)
+
 Ahora que tenemos nuestros servidores Oracle Linux 9.7 con UEK 7 totalmente saneados, es hora de instalar el "motor" que correrá nuestras aplicaciones, y las "herramientas" que nos permitirán construir el clúster.
 
-> **Aplica para:** Nodos MANAGER y WORKER. (¡El HA-Proxy no necesita nada de esto!).
+> **Aplica para:** Nodo Manager (Control-Plane) y Nodos Workers (Data-Plane). (¡El HA-Proxy no necesita nada de esto!).
 > **Privilegios:** Seguimos como `root`.
 
 ---
@@ -149,6 +151,10 @@ systemctl restart kubelet
 ```
 
 ¡Excelente trabajo! La infraestructura base ya está construida. En la siguiente sesión configuraremos nuestro balanceador de carga para asegurar la alta disponibilidad.
+
+---
+
+> **Siguiente paso:** [Laboratorio 03: Configuración de HAProxy](./03-configuracion-haproxy.md) — Configuraremos el punto de entrada único del clúster.
 
 ---
 

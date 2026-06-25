@@ -1,8 +1,10 @@
 # 05 — Unión de Workers al Clúster (Data Plane)
 
-El Master que configuramos en la lección anterior es el cerebro, pero no está diseñado para correr las aplicaciones pesadas. Para eso necesitamos la fuerza bruta: los nodos Worker (el Data Plane). En este módulo, uniremos esos nodos al clúster.
+> **Arquitectura del Laboratorio:** 1 HA-Proxy (Balanceador) · 1 Nodo Manager (Control-Plane) · 3 Nodos Workers (Data-Plane)
 
-> **Aplica para:** Nodos WORKER (`worker-01`, `worker-02`, etc).
+El Nodo Manager que configuramos en la lección anterior es el cerebro, pero no está diseñado para correr las aplicaciones pesadas. Para eso necesitamos la fuerza bruta: los 3 Nodos Workers (el Data Plane). En este módulo, uniremos esos nodos al clúster.
+
+> **Aplica para:** Nodos Workers (Data-Plane) (`worker-01`, `worker-02`, `worker-03`).
 > **Privilegios:** Root (`sudo su -`).
 
 ---
@@ -75,6 +77,10 @@ worker-03    Ready    <none>          45s     v1.36.0    192.168.1.33
 ```
 
 **¡Felicidades!** Tienen un clúster distribuido en Oracle Linux funcionando impecablemente. Solo nos queda una pieza para que los clientes puedan consumir nuestras aplicaciones web, y de eso trata la siguiente y última lección.
+
+---
+
+> **Siguiente paso:** [Laboratorio 06: Despliegue del Ingress Controller](./06-despliegue-ingress.md) — Expondremos las aplicaciones al mundo exterior.
 
 ---
 

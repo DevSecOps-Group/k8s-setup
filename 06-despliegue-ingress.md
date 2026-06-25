@@ -1,10 +1,12 @@
 # 06 — Despliegue del Ingress Controller y Exposición Externa
 
+> **Arquitectura del Laboratorio:** 1 HA-Proxy (Balanceador) · 1 Nodo Manager (Control-Plane) · 3 Nodos Workers (Data-Plane)
+
 ¡Llegamos a la meta final del laboratorio! Nuestro clúster está sano y funcional, pero por defecto, Kubernetes es como una fortaleza amurallada: todo está protegido y no permite tráfico HTTP/HTTPS desde el exterior hacia tus Pods.
 
 Para abrir las puertas del castillo de forma segura e inteligente, usaremos un **Ingress Controller** (en este caso, NGINX).
 
-> **Aplica para:** Nodo MANAGER (para ejecutar Helm) y Nodo HA-PROXY (para el enrutamiento final).
+> **Aplica para:** Nodo Manager (Control-Plane) (para ejecutar Helm) y Nodo HA-Proxy (Balanceador) (para el enrutamiento final).
 > **Privilegios:** Root (`sudo su -`).
 
 ---
@@ -150,6 +152,10 @@ Significa que:
 > [!IMPORTANT]
 > **Fin del Laboratorio**
 > Felicidades, han logrado instalar y operar un clúster Kubernetes desde cero, dominando cada componente interno a nivel de arquitectura: desde Linux, pasando por Containerd, hasta el CNI y el Ingress. Han consolidado habilidades críticas de infraestructura moderna. ¡Éxitos en producción!
+
+---
+
+> **¿Problemas?** Consulta la [guía de troubleshooting](./07-ops-troubleshooting.md) para diagnóstico y reseteo de nodos.
 
 ---
 
